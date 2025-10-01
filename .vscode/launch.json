@@ -6,7 +6,10 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/cyright/packages/vscode-pyright/dist/extension.js",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--disable-extensions"
+      ],
       "smartStep": true,
       "sourceMaps": true,
       "outFiles": [
@@ -18,7 +21,10 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/cyright/packages/vscode-pyright/dist/extension.js",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--disable-extensions"
+      ],
       "smartStep": true,
       "sourceMaps": true,
       "outFiles": [

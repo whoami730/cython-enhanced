@@ -91,4 +91,3 @@ repository:
     patterns:
       - name: keyword.operator.special.cython
         match: '\?'
-  

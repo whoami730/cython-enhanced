@@ -17,6 +17,7 @@ repository:
   expression:
     patterns:
       - include: "#literal"
+      - include: "#special-operators"
       - include: "#illegal-names"
       - include: "source.python#expression"
 
@@ -85,3 +86,9 @@ repository:
         captures:
           '0': {name: keyword.control.flow.cython}
       - include: '#expression'
+
+  special-operators:
+    patterns:
+      - name: keyword.operator.special.cython
+        match: '\?'
+  

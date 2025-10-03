@@ -1,3 +1,3 @@
 [submodule "cyright"]
 	path = cyright
-	url = https://github.com/ktnrg45/cyright.git
+	url = ../cyright.git

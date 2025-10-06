@@ -204,8 +204,8 @@ mv ${CHANGELOG_FILE}.tmp $CHANGELOG_FILE
 npm i --package-lock-only # Update package-lock.json
 git commit -am "$NEW_TAG"
 git push origin $DEV
-git checkout $MASTER
+git checkout $MAIN
 git rebase $DEV
-git push origin $MASTER
+git push origin $MAIN
 git checkout $DEV
-gh release create $NEW_TAG -t $NEW_TAG -n "$GH_CHANGELOG" --target $MASTER $PRERELEASE
+gh release create $NEW_TAG -t $NEW_TAG -n "$GH_CHANGELOG" --target $MAIN $PRERELEASE

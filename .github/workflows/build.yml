@@ -1,10 +1,14 @@
-name: build
+name: Build & Test
 on:
   release:
     types: [published]
-  # push:
-  # pull_request:
-  # workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # manual trigger
 
 jobs:
   build:
@@ -18,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 17
+          node-version: 21
           cache: "npm"
 
       - name: Install Dependencies
@@ -26,18 +30,18 @@ jobs:
 
       - name: VSCE Build Package Release
         if: github.event_name == 'release' && github.event.release.prerelease == false
-        run: vsce package -o vscode-cython.vsix
+        run: vsce package -o cython-enhanced.vsix
 
       - name: VSCE Build Package Pre-Release
         if: github.event_name == 'release' && github.event.release.prerelease != false
-        run: vsce package -o vscode-cython.vsix --pre-release
+        run: vsce package -o cython-enhanced.vsix --pre-release
 
       - name: Upload Artifact
         if: github.event_name == 'release'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: vscode-cython.vsix
+          path: cython-enhanced.vsix
 
       - name: Test
         run: npm run test
@@ -53,18 +57,18 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
 
       - name: Upload Release Artifact
-        run: gh release upload ${{ github.ref_name }} dist/vscode-cython.vsix -R ${{ github.repository }} --clobber
+        run: gh release upload ${{ github.ref_name }} dist/cython-enhanced.vsix -R ${{ github.repository }} --clobber
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 17
+          node-version: 21
           cache: "npm"
 
       - name: Install VSCE
@@ -72,8 +76,8 @@ jobs:
 
       - name: Publish Release
         if: github.event.release.prerelease == false
-        run: vsce publish -i dist/vscode-cython.vsix -p ${{ secrets.TOKEN }}
+        run: vsce publish -i dist/cython-enhanced.vsix -p ${{ secrets.TOKEN }}
 
       - name: Publish Pre-Release
         if: github.event.release.prerelease == true
-        run: vsce publish -i dist/vscode-cython.vsix -p ${{ secrets.TOKEN }} --pre-release
+        run: vsce publish -i dist/cython-enhanced.vsix -p ${{ secrets.TOKEN }} --pre-release

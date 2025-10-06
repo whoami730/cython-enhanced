@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MASTER='master'
+MAIN='main'
 DEV='dev'
 
 CYRIGHT='cyright'

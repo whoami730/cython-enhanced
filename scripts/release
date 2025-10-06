@@ -194,7 +194,7 @@ else
     echo "Releasing as full release"
 fi
 
-REMOTE=$(git config --get remote.origin.url | sed 's/\.git//g')
+REMOTE=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/git@github\.com:/https:\/\/github.com\//g')
 GH_CHANGELOG=$(printf "%s\n\n%s" "$CHANGELOG_ADD" "**Full Changelog**: ${REMOTE}/compare/${LAST_TAG}...${NEW_TAG}")
 
 printf "\n\nRelease Log:\n\n%s\n" "$GH_CHANGELOG"
@@ -204,8 +204,6 @@ mv ${CHANGELOG_FILE}.tmp $CHANGELOG_FILE
 npm i --package-lock-only # Update package-lock.json
 git commit -am "$NEW_TAG"
 git push origin $DEV
-git checkout $MAIN
-git rebase $DEV
-git push origin $MAIN
-git checkout $DEV
+gh pr create -t "$NEW_TAG" -b "" -B $MAIN
+gh pr merge -s -b "" --admin
 gh release create $NEW_TAG -t $NEW_TAG -n "$GH_CHANGELOG" --target $MAIN $PRERELEASE

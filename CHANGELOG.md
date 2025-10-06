@@ -1,5 +1,21 @@
 # Change Log
 
+## [1.0.4]
+
+- Update grammar rules for forward decls
+- Use icon for files
+- Fix `?` highlight
+- Allow extension types forward decl
+- Fix `type` class usage
+- Fixes usage of `?` operator
+- Fix `new` keyword usage as identifier
+- Fix `DEF` expr unary usage
+- Fix wrong type of `pxdDecl`
+- Add typing.Any when necessary for inferred return in type stub
+- Ensure type transfrom from cython is an instance
+- Try to add inferred return types in typestub
+- Narrow cython transform type more loosely
+
 ## [1.0.3]
 
 - Fix background typestub task error

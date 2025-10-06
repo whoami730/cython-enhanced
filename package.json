@@ -2,7 +2,7 @@
   "name": "cython-enhanced",
   "displayName": "Cython Enhanced",
   "description": "Cython syntax checker + highlighter, Go to Definitions, type analysis, and more.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "whoami730",
   "icon": "icon.png",
   "repository": {

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MASTER='master'
+MAIN='main'
 DEV='dev'
 
 CYRIGHT='cyright'
@@ -125,11 +125,13 @@ fi
 check_git_changed
 CYRIGHT_REMOTE=$(git config --get remote.origin.url)
 CYRIGHT_LATEST=$(git log --format="%H" -n 1)
-CHANGELOG_CYRIGHT=$(git log --pretty=format:'- %s' ${CYRIGHT_LAST}...${CYRIGHT_LATEST})
+# Strip PR numbers
+CHANGELOG_CYRIGHT=$(git log --pretty=format:'- %s' ${CYRIGHT_LAST}...${CYRIGHT_LATEST} | sed 's/ (#[0-9]\+)//')
 
 cd $WORKDIR
 check_git_changed 1
-CHANGELOG_REMOTE=$(git log --pretty=format:'- %s' ${LAST_TAG}...)
+# Strip PR numbers
+CHANGELOG_REMOTE=$(git log --pretty=format:'- %s' ${LAST_TAG}... | sed 's/ (#[0-9]\+)//')
 CHANGELOG_HEADER=$(cat $CHANGELOG_FILE | head -1)
 CHANGELOG=$(cat $CHANGELOG_FILE | tail -n +2)
 

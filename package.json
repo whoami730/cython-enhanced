@@ -1,13 +1,13 @@
 {
-  "name": "vscode-cython",
-  "displayName": "Cython VSCode",
+  "name": "cython-enhanced",
+  "displayName": "Cython Enhanced",
   "description": "Cython syntax checker + highlighter, Go to Definitions, type analysis, and more.",
   "version": "1.0.3",
-  "publisher": "ktnrg45",
+  "publisher": "whoami730",
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ktnrg45/vs-code-cython.git"
+    "url": "https://github.com/whoami730/cython-enhanced.git"
   },
   "engines": {
     "vscode": "^1.70.0"

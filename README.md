@@ -1,12 +1,12 @@
-# vscode-cython
+# Cython Enhanced
 
-[Main Repository](https://github.com/ktnrg45/vs-code-cython)
+[Cyright LSP Repository](https://github.com/whoami730/cyright)
 
-[Cyright LSP Repository](https://github.com/ktnrg45/cyright)
+Fork of existing Cython VSCode extension, [vscode-cython](https://github.com/ktnrg45/vs-code-cython)
 
 ## Cython Language Extension for VS Code
 
-![VS Code Cython Demo](https://github.com/ktnrg45/vs-code-cython/raw/master/assets/demo.gif)
+![VS Code Cython Demo](./assets/demo.gif)
 
 # Features
 
@@ -102,7 +102,7 @@ Alternatively, a vsix package can be built:
 ```
 npm install vsce
 npx vsce package
-code --install-extension vscode-cython-<version>.vsix
+code --install-extension cython-enhanced-<version>.vsix
 ```
 
 # Development
@@ -149,7 +149,7 @@ npm run build:syntax
 
 ## Language Server (Cyright) Development
 
-Pull requests should be created under the [Cyright Repository](https://github.com/ktnrg45/cyright).
+Pull requests should be created under the [Cyright Repository](https://github.com/whoami730/cyright).
 
 There is a 'Watch Extension' task to aid in development.
 The language server can be debugged by launching the 'Extension' launch target and then launching the 'Attach Server' target.

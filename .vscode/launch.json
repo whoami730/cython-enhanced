@@ -7,8 +7,7 @@
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/cyright/packages/vscode-pyright/dist/extension.js",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}",
-        "--disable-extensions"
+        "--extensionDevelopmentPath=${workspaceFolder}"
       ],
       "smartStep": true,
       "sourceMaps": true,
@@ -22,8 +21,7 @@
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/cyright/packages/vscode-pyright/dist/extension.js",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}",
-        "--disable-extensions"
+        "--extensionDevelopmentPath=${workspaceFolder}"
       ],
       "smartStep": true,
       "sourceMaps": true,
@@ -41,22 +39,45 @@
       "sourceMaps": true,
       "outFiles": [
         "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
-      ]
-      //"preLaunchTask": "sleep"
+      ],
+      "pauseForSourceMap": true
     },
     {
+      "name": "Run tests",
       "type": "node",
-      "request": "attach",
-      "name": "Attach Tests",
-      "port": 9229,
-      "smartStep": true,
-      "sourceMaps": true
+      "request": "launch",
+      "args": [
+        "--runInBand"
+      ],
+      "cwd": "${workspaceRoot}/cyright/packages/pyright-internal/src/tests-cython",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "program": "${workspaceFolder}/cyright/packages/pyright-internal/node_modules/jest/bin/jest"
+    },
+    {
+      "name": "Run selected test",
+      "type": "node",
+      "request": "launch",
+      "args": [
+        "--runInBand",
+        "-t",
+        "${selectedText}"
+      ],
+      "cwd": "${workspaceRoot}/cyright/packages/pyright-internal/src/tests-cython",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "program": "${workspaceFolder}/cyright/packages/pyright-internal/node_modules/jest/bin/jest"
     }
   ],
   "compounds": [
     {
       "name": "Extension + Server",
-      "configurations": ["Extension", "Attach server"]
+      "configurations": [
+        "Extension",
+        "Attach server"
+      ],
+      "preLaunchTask": "npm: build:extension:dev",
+      "stopAll": true
     }
   ]
 }

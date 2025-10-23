@@ -125,8 +125,9 @@
     "build:syntax": "shx mkdir -p syntaxes && syntaxdev build-plist --in grammars/cython.syntax.yaml --out syntaxes/cython.tmLanguage",
     "build:extension": "npm run build:syntax && npm run webpack",
     "build:extension:dev": "npm run build:syntax && npm run webpack-dev",
+    "build:extension:dev-w": "npm run build:syntax && npm run webpack-dev-w",
     "build:cli:dev": "cd cyright && cd packages/pyright && npm run webpack",
-    "watch:extension": "cd cyright && cd packages/vscode-pyright && npm run webpack-dev",
+    "watch:extension": "cd cyright && cd packages/vscode-pyright && npm run webpack-dev-w",
     "check": "cd cyright && npm run check:syncpack && npm run check:eslint && npm run check:prettier && npm run check:lockindent",
     "check:syncpack": "cd cyright && syncpack list-mismatches",
     "fix:syncpack": "cd cyright && syncpack fix-mismatches --indent \"    \" && npm run install:all",
@@ -140,9 +141,11 @@
     "postpackage": "cd cyright/packages/vscode-pyright && node ./build/renamePackage.js vscode-pyright",
     "vscode:prepublish": "npm run build:extension",
     "webpack": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode production --progress",
-    "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --watch --progress",
+    "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --progress",
+    "webpack-dev-w": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --watch --progress",
     "test": "cd cyright/packages/pyright-internal && npm run test:cython",
-    "test:compile": "cd cyright/packages/pyright-internal && npm run test:cython:compile"
+    "package:install": "npm run package -- -o cython-enhanced.vsix && code --install-extension cython-enhanced.vsix",
+    "package:clean": "rm cython-enhanced.vsix"
   },
   "devDependencies": {
     "js-yaml": "^4.1.0",

@@ -26,7 +26,7 @@ jobs:
           cache: "npm"
 
       - name: Install Dependencies
-        run: npm install --include=dev && npm install -g vsce
+        run: sudo apt-get update && sudo apt-get install cython3 -y && npm install --include=dev && npm install -g vsce
 
       - name: VSCE Build Package Release
         if: github.event_name == 'release' && github.event.release.prerelease == false

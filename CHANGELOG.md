@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.0.5]
+
+- Update pyright to 1.1.285
+- Enable extensive cython testing
+- Fix crash on missing parent
+- Fix type issue
+- Identify extension conflict
+
 ## [1.0.4]
 
 - Update grammar rules for forward decls

@@ -17,3 +17,6 @@ syntax:
 
 build-lang-server:
 	cd cyright/packages/vscode-pyright && npm run webpack
+
+vsix: syntax build-lang-server
+	npm run package

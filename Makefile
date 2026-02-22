@@ -13,7 +13,7 @@ dev:
 	npm install --include=dev
 
 syntax:
-	mkdir -p syntaxes && ./node_modules/.bin/syntaxdev build-plist --in grammars/cython.syntax.yaml --out syntaxes/cython.tmLanguage
+	node scripts/build-syntax.js
 
 build-lang-server:
 	cd cyright/packages/vscode-pyright && npm run webpack

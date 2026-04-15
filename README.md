@@ -1,8 +1,8 @@
+> **Note:** This is a temporary maintenance fork of [vscode-cython](https://github.com/ktnrg45/vs-code-cython). All credit goes to the original author.
+
 # Cython Enhanced
 
 [Cyright LSP Repository](https://github.com/whoami730/cyright)
-
-Fork of existing Cython VSCode extension, [vscode-cython](https://github.com/ktnrg45/vs-code-cython)
 
 ## Cython Language Extension for VS Code
 

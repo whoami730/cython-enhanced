@@ -1,5 +1,25 @@
 # Change Log
 
+## [1.0.6]
+
+### Build & dependencies
+
+- Replace `syntaxdev` + `first-mate` + `oniguruma` with a pure-JS grammar build (`scripts/build-syntax.js` using `js-yaml` and `plist`). No native build or Python is required to generate the TextMate grammar.
+- Add `@vscode/vsce` as a dev dependency for packaging the extension.
+- Upgrade `@vscode/vsce` to ^3.7.1.
+- Makefile: `syntax` target now runs `node scripts/build-syntax.js` instead of `syntaxdev`.
+
+### Documentation
+
+- Add **Configuration** section to README documenting `cython.typeCheckingMode` (off / cython / basic / strict) and `cython.includePaths`.
+- Add **Building a .vsix package** section with step-by-step instructions; document `npm run package`, `package:install`, and `package:clean`.
+- Consolidate **Development** section to reference Install from source and Building source instead of repeating the same steps.
+- Remove Python/distutils troubleshooting from README (no longer needed after removing oniguruma).
+
+### Cython language support
+
+- Add support for the Cython `api` keyword (C API declarations). The keyword is recognized in the same contexts as `public`, highlighted as a modifier, included in completions, and reflected in type/hover printing (e.g. `cdef public api void foo() except *`).
+
 ## [1.0.5]
 
 - Update pyright to 1.1.285

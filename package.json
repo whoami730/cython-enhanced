@@ -2,7 +2,7 @@
   "name": "cython-enhanced",
   "displayName": "Cython Enhanced",
   "description": "Cython syntax checker + highlighter, Go to Definitions, type analysis, and more.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "whoami730",
   "icon": "icon.png",
   "repository": {
@@ -64,6 +64,13 @@
           },
           "description": "Paths to include for analysis. (Out-of-tree paths)",
           "scope": "resource"
+        },
+        "cython.typeCheckingMode": {
+          "type": "string",
+          "default": "cython",
+          "enum": ["off", "cython", "basic", "strict"],
+          "description": "How strict to be with diagnostics. Use 'cython' (default) to avoid false positives from cimports/C types; use 'basic' or 'strict' for more checks.",
+          "scope": "resource"
         }
       }
     },
@@ -122,7 +129,7 @@
     "clean": "cd cyright && lerna run --no-bail --stream clean",
     "install:all": "cd cyright && npm install && lerna exec --no-bail npm install",
     "update:all": "cd cyright && node ./build/updateDeps.js",
-    "build:syntax": "shx mkdir -p syntaxes && syntaxdev build-plist --in grammars/cython.syntax.yaml --out syntaxes/cython.tmLanguage",
+    "build:syntax": "node scripts/build-syntax.js",
     "build:extension": "npm run build:syntax && npm run webpack",
     "build:extension:dev": "npm run build:syntax && npm run webpack-dev",
     "build:extension:dev-w": "npm run build:syntax && npm run webpack-dev-w",
@@ -139,6 +146,7 @@
     "prepackage": "cd cyright/packages/vscode-pyright && node ./build/renamePackage.js pyright",
     "package": "vsce package",
     "postpackage": "cd cyright/packages/vscode-pyright && node ./build/renamePackage.js vscode-pyright",
+    "vsix": "npm run build:syntax && npm run webpack && npm run package",
     "vscode:prepublish": "npm run build:extension",
     "webpack": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode production --progress",
     "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --progress",
@@ -148,9 +156,10 @@
     "package:clean": "rm cython-enhanced.vsix"
   },
   "devDependencies": {
+    "@vscode/vsce": "^3.7.1",
     "js-yaml": "^4.1.0",
     "lerna": "^5.3.0",
-    "shx": "^0.3.4",
-    "syntaxdev": "^0.1.3"
+    "plist": "^3.0.1",
+    "shx": "^0.3.4"
   }
 }

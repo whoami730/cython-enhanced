@@ -25,6 +25,18 @@ The static checker is based on [Pyright](https://github.com/microsoft/pyright) a
 
 This extension uses the configured Python interpreter/venv path from the `VS Code Python` extension.
 
+# Configuration
+
+Configure these in **File → Preferences → Settings** (or your workspace `.vscode/settings.json`):
+
+- **`cython.typeCheckingMode`** — How strict the language server is with diagnostics.  
+  - `off` — No type-checking diagnostics.  
+  - `cython` **(default)** — Tuned for Cython; reduces false positives from cimports and C types.  
+  - `basic` — More checks; good for mixed Python/Cython.  
+  - `strict` — Full Pyright-style strict checking.  
+
+- **`cython.includePaths`** — Extra paths (e.g. out-of-tree `.pxd` locations) to use for analysis.
+
 # Commands
 
 
@@ -91,65 +103,84 @@ Install normally through the extensions tab.
 - Install `npm`
 
 ### Building source
-- To build extension run:
-  ```
-  npm install --include=dev
-  npm run build:extension
-  ```
-### Building vsix package
 
-Alternatively, a vsix package can be built:
+To build the extension locally:
+
+```bash
+npm install --include=dev
+npm run build:extension
 ```
-npm install vsce
-npx vsce package
-code --install-extension cython-enhanced-<version>.vsix
-```
+
+## Building a .vsix package
+
+The project includes `@vscode/vsce` as a dev dependency. From the repo root:
+
+1. **Install dependencies** (if not already done):
+
+   ```bash
+   npm install --include=dev
+   ```
+
+2. **Build the .vsix** — One command regenerates the grammar, builds the extension, and creates the package:
+
+   ```bash
+   npm run vsix
+   ```
+
+   This runs (in order) `build:syntax`, `webpack`, and `package`, and produces a file like `cython-enhanced-1.0.6.vsix` in the project root (version from `package.json`).
+
+   To force a specific output filename:
+
+   ```bash
+   npm run vsix -- -o cython-enhanced.vsix
+   ```
+
+   (Pass the `-o` option through to `vsce package`.) If you already built and only need to repackage, use `npm run package` instead.
+
+3. **Install and test in VS Code**:
+
+   ```bash
+   code --install-extension cython-enhanced-1.0.6.vsix
+   ```
+
+   (Use the actual filename from step 2.) Then reload the window: **Ctrl+Shift+P** → “Developer: Reload Window” (or restart VS Code). Open a `.pyx` file to verify highlighting and language server.
+
+   **One-shot build + install:**
+
+   ```bash
+   npm run package:install
+   ```
+
+   This builds the .vsix with `-o cython-enhanced.vsix` and then installs it into VS Code.
+
+4. **Remove the .vsix** (optional):
+
+   ```bash
+   npm run package:clean
+   ```
 
 # Development
 
-## Setup
+Follow **Install from source** and **Building source** above to get a working build. For day-to-day development:
 
-To setup development environment:
+- **Incremental build:** `npm run build:extension:dev` or, in VS Code, **Tasks: Run Build Task** → **Watch extension** (rebuilds on file changes).
 
-- Follow the instructions for `Installing from source` (repo can be cloned anywhere on filesystem) (build step can be skipped).
+## Debugging
 
-- Install development npm packages:
-
-  ```
-  npm install --include=dev
-  ```
-
-- To rebuild lang-server and syntax file, Run:
-
-  ```
-  npm run build:extension:dev
-  ```
-
-### Debugging
-
-Run the `Watch extension` task. This can be done in vscode by clicking `view->Command Palette` and then selecting `Tasks: Run Build Task` and then selecting `Watch extension`.
-
-This will build the language server and the source code will be watched for changes
-
-You can then run the launch task: `Extension` which will launch the extension in debug mode.
-
-After the extension has been launched run the launch task `Attach server`, which will attach the debugger to the extension.
+1. In VS Code: **View → Command Palette** → **Tasks: Run Build Task** → **Watch extension** (builds and watches for changes).
+2. **Run → Start Debugging** (or F5) and choose the **Extension** launch configuration. This opens a new “Extension Development Host” window with the extension loaded.
+3. In that host window, open a `.pyx` file to trigger the language server. To debug the server: from the first window, run the **Attach server** launch configuration.
 
 ## Syntax highlighting changes
 
-Any changes should be made to `./grammars/cython.syntax.yaml`
+Edit `./grammars/cython.syntax.yaml`, then regenerate the TextMate grammar:
 
-The syntax file will need to be re-generated for VS Code to see changes.
-
-To re-generate syntax file run:
-
-```
+```bash
 npm run build:syntax
 ```
 
 ## Language Server (Cyright) Development
 
-Pull requests should be created under the [Cyright Repository](https://github.com/whoami730/cyright).
+The language server lives in the `cyright` submodule. Pull requests for Cyright should be created under the [Cyright Repository](https://github.com/whoami730/cyright).
 
-There is a 'Watch Extension' task to aid in development.
-The language server can be debugged by launching the 'Extension' launch target and then launching the 'Attach Server' target.
+Use the **Watch Extension** task and the **Extension** + **Attach Server** launch targets when developing the language server.

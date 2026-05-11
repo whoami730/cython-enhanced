@@ -3,24 +3,51 @@
  * Build TextMate grammar from YAML to plist (.tmLanguage).
  * Replaces syntaxdev + first-mate + oniguruma to avoid native build.
  */
-const fs = require('fs');
-const path = require('path');
-const yaml = require('js-yaml');
-const plist = require('plist');
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
+import { join, resolve } from 'path';
+import { load } from 'js-yaml';
+import { build } from 'plist';
 
-const repoRoot = path.resolve(__dirname, '..');
-const inputPath = path.join(repoRoot, 'grammars', 'cython.syntax.yaml');
-const outputDir = path.join(repoRoot, 'syntaxes');
-const outputPath = path.join(outputDir, 'cython.tmLanguage');
-
-const yamlText = fs.readFileSync(inputPath, 'utf8');
-const grammar = yaml.load(yamlText);
-
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
+/**
+ * @param {string} yamlText raw YAML for the TextMate grammar
+ * @returns {string} plist XML
+ */
+function tmLanguageXmlFromGrammarYaml(yamlText) {
+  const grammar = load(yamlText);
+  return build(grammar);
 }
 
-const plistXml = plist.build(grammar);
-fs.writeFileSync(outputPath, plistXml, 'utf8');
+/**
+ * @param {string} repoRoot absolute path to extension repo root
+ * @returns {string} plist XML for syntaxes/cython.tmLanguage
+ */
+function buildTmLanguageXmlForRepo(repoRoot) {
+  const inputPath = join(repoRoot, 'grammars', 'cython.syntax.yaml');
+  const yamlText = readFileSync(inputPath, 'utf8');
+  return tmLanguageXmlFromGrammarYaml(yamlText);
+}
 
-console.log('Built syntaxes/cython.tmLanguage');
+function main() {
+  const repoRoot = resolve(__dirname, '..');
+  const outputDir = join(repoRoot, 'syntaxes');
+  const outputPath = join(outputDir, 'cython.tmLanguage');
+
+  const plistXml = buildTmLanguageXmlForRepo(repoRoot);
+
+  if (!existsSync(outputDir)) {
+    mkdirSync(outputDir, { recursive: true });
+  }
+
+  writeFileSync(outputPath, plistXml, 'utf8');
+
+  console.log('Built syntaxes/cython.tmLanguage');
+}
+
+export default {
+  buildTmLanguageXmlForRepo,
+  tmLanguageXmlFromGrammarYaml,
+};
+
+if (require.main === module) {
+  main();
+}

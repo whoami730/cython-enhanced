@@ -152,6 +152,8 @@
     "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --progress",
     "webpack-dev-w": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --watch --progress",
     "test": "cd cyright/packages/pyright-internal && npm run test:cython",
+    "test:syntax": "node --test scripts/build-syntax.test.js",
+    "test:all": "npm run test:syntax && npm run test",
     "package:install": "npm run package -- -o cython-enhanced.vsix && code --install-extension cython-enhanced.vsix",
     "package:clean": "rm cython-enhanced.vsix"
   },

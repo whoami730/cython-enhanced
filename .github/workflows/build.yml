@@ -44,7 +44,7 @@ jobs:
           path: cython-enhanced.vsix
 
       - name: Test
-        run: npm run test
+        run: npm run test:syntax && npm run test
 
   publish:
     runs-on: ubuntu-latest

@@ -79,7 +79,7 @@ repository:
               ) | (
                 cdef | cpdef | ctypedef | DEF | IF | ELSE | ELIF
               ) | (
-                const | unsigned | signed | new | readonly | inline | public | cppclass | packed(?=\s+struct)
+                const | unsigned | signed | new | readonly | inline | public | api | cppclass | packed(?=\s+struct)
               )
             )\b
         captures:
